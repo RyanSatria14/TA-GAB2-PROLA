@@ -3,9 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Models_obat extends CI_Model {
-    
+
     function get_data(){
-        
         $this->db->select("id AS id_obat,
         kode AS kode_obat,
         nama AS nama_obat,
