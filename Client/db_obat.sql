@@ -22,19 +22,19 @@ DROP TABLE IF EXISTS `tb_obat`;
 
 CREATE TABLE `tb_obat` (
   `id` int(15) NOT NULL AUTO_INCREMENT,
-  `kode_obat` varchar(20) DEFAULT NULL,
-  `nama_obat` varchar(100) DEFAULT NULL,
-  `jenis_obat` varchar(100) DEFAULT NULL,
-  `harga_obat` varchar(50) DEFAULT NULL,
-  `stok` varchar(50) DEFAULT NULL,
+  `kode` varchar(20) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `nama` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `jenis` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `harga` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `stok` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_obat` */
 
-insert  into `tb_obat`(`id`,`kode_obat`,`nama_obat`,`jenis_obat`,`harga_obat`,`stok`) values 
-(1,'D101','Redoxin','Vitamin','5000','40'),
-(2,'D102','Mixagrip','Obat Luar','2500','30');
+insert  into `tb_obat`(`id`,`kode`,`nama`,`jenis`,`harga`,`stok`) values 
+(1,'D105','OBH','Obat','10000','39'),
+(3,'D102','Oskadon','Vitamin','3500','20');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
