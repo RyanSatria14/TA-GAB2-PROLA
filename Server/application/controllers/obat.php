@@ -35,7 +35,7 @@ class obat extends Server {
 			"token" => base64_encode($this->put("token")),
 		);
 
-		$hasil = $this->model->update_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"]);
+		$hasil = $this->model->update_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"],$data["token"]);
 		
 		
 		if($hasil == 0){
@@ -61,7 +61,7 @@ class obat extends Server {
 			"token" => base64_encode($this->post("token")),
 		);
 		
-		$hasil = $this->model->save_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"]);
+		$hasil = $this->model->save_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"],$data["token"]);
 	
 		if($hasil == 0){
 			$this->response(array("status"=>"Data obat Berhasil Disimpan"),200);
