@@ -14,9 +14,9 @@ class obat extends Server {
 	
 	function service_get(){
 		
-		$this->load->model("Models_obat","model",TRUE);
+		$this->load->model("Models_obat","mdl",TRUE);
 		
-		$hasil = $this->model->get_data();
+		$hasil = $this->mdl->get_data();
 		
 		$this->response(array("obat" => $hasil),200);
 	}
@@ -35,7 +35,6 @@ class obat extends Server {
 			"token" => base64_encode($this->put("token")),
 		);
 
-		
 		$hasil = $this->model->update_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"]);
 		
 		
@@ -51,7 +50,7 @@ class obat extends Server {
 	
 	function service_post(){
 		
-		$this->load->model("Models.php", "model", TRUE);
+		$this->load->model("Models_obat", "model", TRUE);
 		
 		$data = array(
 			"kode" => $this->post("kode"),
