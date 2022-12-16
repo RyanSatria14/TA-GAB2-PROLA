@@ -11,7 +11,7 @@ class Obat extends CI_Controller {
 		//{
 		//	echo $result->npm_mhs."<br>";
 		//}
-		$this->load->view('vw_obat', $data);
+		$this->load->view('index', $data);
 	}
 
 	
