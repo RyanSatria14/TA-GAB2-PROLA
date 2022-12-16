@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="author" content="Muhamad Nauval Azhar">
+	<meta name="author" content="-">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<meta name="description" content="This is a login page template based on Bootstrap 5">
 	<title>Aplikasi Pengelolaan Data Obat</title>
