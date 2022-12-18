@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.4.3 (64 bit)
-MySQL - 10.4.11-MariaDB : Database - db_obat
+SQLyog Community v13.1.5  (32 bit)
+MySQL - 10.4.25-MariaDB : Database - db_obat
 *********************************************************************
 */
 
@@ -28,12 +28,11 @@ CREATE TABLE `tb_obat` (
   `harga` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
   `stok` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_obat` */
 
 insert  into `tb_obat`(`id`,`kode`,`nama`,`jenis`,`harga`,`stok`) values 
-(1,'D105','OBH','Obat','10000','39'),
 (3,'D102','Oskadon','Vitamin','3500','20');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

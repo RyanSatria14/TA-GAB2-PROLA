@@ -104,14 +104,15 @@ th,td
 .item-label1,.item-input1,.item-error1,
 .item-label2,.item-input2,.item-error2,
 .item-label3,.item-input3,.item-error3,
-.item-label4,.item-input4,.item-error4
+.item-label4,.item-input4,.item-error4,
+.item-label5,.item-input5,.item-error5
 {
     display: grid;
     min-height: 40px;
     align-items: center;
 }
 
-.item-label1,.item-label2,.item-label3,.item-label4
+.item-label1,.item-label2,.item-label3,.item-label4, .item-label5
 {
     justify-content: end;
 }
@@ -181,6 +182,21 @@ th,td
     grid-area: error4;
 }
 
+.item-label5
+{   
+    grid-area: label5;
+}
+
+.item-input5
+{  
+    grid-area: input5;
+}
+
+.item-error5
+{
+    grid-area: error5;
+}
+
 
 
 .area-grid
@@ -191,7 +207,8 @@ th,td
     'label1 input1 input1 error1'
     'label2 input2 input2 error2'
     'label3 input3 input3 error3'
-    'label4 input4 input4 error4';
+    'label4 input4 input4 error4'
+    'label5 input5 input5 error5';
     grid-gap: 10px;
 }
 
@@ -222,3 +239,6 @@ th,td
     color: #FF0000;
     display: none;
 }
+
+.left {text-align: left;}
+.center {text-align: center;}

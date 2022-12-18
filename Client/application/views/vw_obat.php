@@ -8,18 +8,21 @@
 
     <!--impoert fontawesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <!--impoert css-->
-    <link rel="stylesheet" href="<?php echo base_url("ext/style.css")?>"/>
-    <link rel="stylesheet" href="<?php echo base_url("ext/bootstrap.css")?>"/>
+    
 </head>
 <br>
 <body>
     <!-- buat area menu -->
-    <nav class="area-menu">
-        <button id="btn_tambah" class="btn btn-primary">Tambah Data</button>
-        <button id="btn_refresh" class="btn btn-warning" onclick="return set_Refresh()">Refresh Data</button>
-
+    <nav class="navbar bg-light">
+    <h4> Aplikasi Pengelolaan Data Obat</h4>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/UNIVERSITASTEKNOKRAT.png/200px-UNIVERSITASTEKNOKRAT.png" alt="logo" width="100">
+    <form class="container-fluid justify-content-start">
+        <button id="btn_tambah" class="btn btn-outline-primary me-2" type="button">Tambah Data</button>
+        <button id="btn_refresh" class="btn btn-sm btn-outline-secondary" type="button" onclick="return set_Refresh()">Refresh Data</button>
+        </form>
     </nav>
 
     <!-- buat area table -->
@@ -94,7 +97,7 @@
             btn_tambah.addEventListener('click', function()
             {
             
-                location.href='<?php echo site_url("") ?>'
+                location.href='<?php echo site_url("Obat/TambahObat") ?>'
             })
 
            // btn_refresh.addEventListener('click', set_Refresh)
@@ -104,19 +107,58 @@
             }
 
              // buat fungsi untuk update data
-            function gotoUpdate()
+            function gotoUpdate(kode)
             {
-                
+                //let npmx = btoa(npm);
+                location.href='<?php echo site_url ("Obat/updateObat/")?>'+'/'+kode
             }
 
             // buat fungsi untuk hapus data
-            function gotoDelete()
+            function gotoDelete(kode)
             {
-               
+                if(confirm("Data Mahasiswa "+kode+" Ingin Di Hapus ?") === true)
+                {
+                    //alert("Data Mahasiswa Berhasil Dihapus")
+                    //panggil fungsi setdelete
+                    setDelete(kode);
+                } 
             }
 
-            function setDelete(){
-               
+            function setDelete(kode){
+               //buat variable konstanta data
+              const data = {
+                "kodenya" : kode
+              }
+              //kirim data dengan async dengan fetch
+              fetch('<?php echo site_url("Obat/setDelete"); ?>', 
+              {
+                method : "POST",
+                headers : {
+                  "Content-Type" : "application/json",
+                },
+                body: JSON.stringify(data)
+              })
+              .then((response)=>
+              {
+                return response.json()
+              })
+
+              .then(function(data)
+              {
+                //jika nilai "err" = 0
+                //if(data.err === 0)
+                  //alert("Data Berhasil Dihapus")
+
+                //jika nilai err = 1
+                //else
+                  //alert("Data Gagal Dihapus!")
+                //alert(data.err);
+
+                alert(data.statusnya);
+                //panggil refresh
+                set_Refresh();
+              })
+            
             }
         </script>
 </body>
