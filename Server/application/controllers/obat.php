@@ -57,8 +57,8 @@ class obat extends Server {
 			"nama" => $this->post("nama"),
 			"jenis" => $this->post("jenis"),
 			"harga" => $this->post("harga"),
-            "stok" => $this->put("stok"),
-			"token" => base64_encode($this->post("token")),
+            "stok" => $this->post("stok"),
+			"token" => base64_encode($this->post("kode")),
 		);
 		
 		$hasil = $this->model->save_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"],$data["token"]);
