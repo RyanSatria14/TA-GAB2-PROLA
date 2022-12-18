@@ -48,7 +48,7 @@ class Obat extends CI_Controller {
 		//isi nilai err
 		//$err = 0;
 
-		//kirim hasil ke vw mahasiswa
+		//kirim hasil ke vw obat
 		echo json_encode(array("statusnya" => $delete->status));
 	}
 	

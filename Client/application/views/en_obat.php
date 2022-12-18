@@ -56,7 +56,7 @@
 		</section>
         <section class="item-input3">
 			<select  id="cbo_jenis" class="select-input">
-				<option value="-">Pilih Jenis Obat : </option>
+				<option value="-">Pilih Jenis : </option>
 				<option value="Vitamin">Vitamin</option>
 				<option value="Obat">Obat</option>
 				
