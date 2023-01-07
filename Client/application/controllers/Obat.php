@@ -28,7 +28,7 @@ class Obat extends CI_Controller {
 		    "jenis" => $this->input->post("jenisnya"),
 		    "harga" => $this->input->post("harganya"),
 			"stok" => $this->input->post("stoknya"),
-			"token" => $this->input->post("kodenya"),
+			"token" => $this->input->post("tokennya"),
 		);
 		
 		$save = json_decode($this->client->simple_post(APIOBAT,$data));
@@ -51,5 +51,52 @@ class Obat extends CI_Controller {
 		//kirim hasil ke vw obat
 		echo json_encode(array("statusnya" => $delete->status));
 	}
+
+
+//fungsi untuk update data
+function updateObat()
+{
+	
+		//$segmen = $this->uri->total_segments();
+		//ambil nilai npm
+		$token = $this->uri->segment(3);
+		$tampil = json_decode($this->client->simple_get(APIOBAT, array("kode" => $token)));
+
+		foreach($tampil -> obat as $result)
+		{
+			//echo $result->nama_mhs."<br>";
+			$data = array(
+				"kode" => $result->kode_obat,
+				"nama" => $result->nama_obat,
+				"jenis" => $result->jenis_obat,
+				"harga" => $result->harga_obat,
+				"stok" => $result->stok_obat,
+				"token" => $token,
+		);
+	}
+
+	$this->load->view('up_obat', $data);
+	
+}
+
+
+
+//buat fungsi untuk simpan data mahasiswa
+function setUpdate()
+{
+	//baca nilai dari fetch
+	$data = array(
+		"kode" => $this->input->post("kodenya"),
+		"nama" => $this->input->post("namanya"),
+		"jenis" => $this->input->post("jenisnya"),
+		"harga" => $this->input->post("harganya"),
+		"stok" => $this->input->post("stoknya"),
+		"token" => $this->input->post("tokennya"),
+	);
+	
+	$update = json_decode($this->client->simple_put(APIOBAT,$data));
+
+	echo json_encode(array("statusnya" => $update->status));
+}
 	
 }

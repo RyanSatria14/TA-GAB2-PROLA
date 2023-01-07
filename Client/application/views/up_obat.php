@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Tambah Data</title>
+    <title>Form Ubah Data</title>
     <!--impoert fontawesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -21,12 +21,12 @@
     <form class="container-fluid justify-content-start">
         <button id="btn_lihat" class="btn btn-outline-primary me-2" type="button">Lihat Data</button>
         <button id="btn_refresh" class="btn btn-sm btn-outline-secondary" type="button" onclick="return set_Refresh()">Refresh Data</button>
-        </form>
+        
     </nav>
-    <!--buat area data obat-->
-    <main class="container text-center">
+     <!--buat area data obat-->
+     <main class="container text-center">
         <section class="item-label1">
-			<label id="lbl_kode" for="txt_kode" class="center">
+			<label id="lbl_kode" for="txt_kode">
 				Kode :
 			</label>
 		</section>
@@ -93,10 +93,8 @@
 		</section>
 
     </main>
-
 	<nav class="area-menu" style="margin-top:10px;">
-        <button id="btn_simpan" class="btn-primary">Simpan Data</button>
-		
+        <button id="btn_ubah" class="btn-primary">Ubah Data</button>
 
     </nav>
 
@@ -104,43 +102,55 @@
 <script src ="<?php echo base_url("ext/script.js"); ?>"> </script>
 
 <script>
+    //inisialisasi object dan ambil data
+    let txt_kode = document.getElementById("txt_npm");
+    let txt_nama = document.getElementById("txt_nama");
+    let cbo_jenis = document.getElementById("cbo_jenis");
+    let txt_harga = document.getElementById("txt_harga");
+    let txt_stok = document.getElementById("txt_stok");
+    let token = '<? echo $token; ?>'
+
+    txt_kode.value = '<?php echo $kode; ?>';
+    txt_nama.value = '<?php echo $nama; ?>';
+    cbo_jenis.value = '<?php echo $jenis; ?>';
+    txt_harga.value = '<?php echo $harga; ?>';
+    txt_stok.value = '<?php echo $stok; ?>';
+	
+
     //inisialisasi object
     let btn_lihat = document.getElementById("btn_lihat");
-	let btn_simpan = document.getElementById("btn_simpan");
+	let btn_ubah = document.getElementById("btn_ubah");
 
-    //even btn lihat
-    btn_lihat.addEventListener('click', function(){
+   //even btn lihat
+   btn_lihat.addEventListener('click', function(){
         location.href='<?php echo base_url (); ?>'
     });
 
     //fungsi refresh
             function set_Refresh()
             {
-                location.href='<?php echo site_url("Obat/TambahObat") ?>'
+                location.href='<?php echo site_url("Obat/updateObat") ?>'
             }
 
 	//buat event btn_simpan
-	btn_simpan.addEventListener('click', function(){
+	btn_ubah.addEventListener('click', function(){
 		//inisialisasi object
 		let lbl_kode = document.getElementById("lbl_kode");
-		let txt_kode = document.getElementById("txt_kode");
 		let err_kode = document.getElementById("err_kode");
 
-		let lbl_nama = document.getElementById("lbl_nama");
-		let txt_nama = document.getElementById("txt_nama");
+        let lbl_nama = document.getElementById("lbl_nama");
 		let err_nama = document.getElementById("err_nama");
 
-		let lbl_jenis = document.getElementById("lbl_jenis");
-		let cbo_jenis = document.getElementById("cbo_jenis");
+        let lbl_jenis = document.getElementById("lbl_jenis");
 		let err_jenis = document.getElementById("err_jenis");
 
 		let lbl_harga = document.getElementById("lbl_harga");
-		let txt_harga = document.getElementById("txt_harga");
 		let err_harga = document.getElementById("err_harga");
 
-		let lbl_stok = document.getElementById("lbl_stok");
-		let txt_stok = document.getElementById("txt_stok");
+        let lbl_stok = document.getElementById("lbl_stok");
 		let err_stok = document.getElementById("err_stok");
+
+		
 
 		//jika kode tidak diisi
 		if(txt_kode.value === "")
@@ -225,18 +235,18 @@
 			lbl_stok.style.color = "#000000",
 			txt_stok.style.borderColor = "unset",
 		]
-		
 
 		//jika komponen terisi
 		if(err_kode.innerHTML === "" && nama[1] === "" && jenis[1] === "" && harga[1] === "" && stok[1] === "")
 		{
-			// panggil method setSave
-			setSave(txt_kode.value, txt_nama.value, cbo_jenis.value, txt_harga.value, txt_stok.value);
+			// panggil method setUpdate
+			setUpdate(txt_kode.value, txt_nama.value, cbo_jenis.value, txt_harga.value, txt_stok.value, token);
 		}
+		
 		
 	});
 	
-	const setSave = (kode, nama, jenis, harga, stok) => {
+	const setUpdate = async(kode, nama, jenis, harga, stok, token) => {
 		//buat variabel
 		let form = new FormData();
 
@@ -246,20 +256,41 @@
 		form.append("jenisnya", jenis);
 		form.append("harganya", harga);
 		form.append("stoknya", stok);
+		form.append("tokennya", token);
 
-		//proses kirim data ke controller
-		fetch('<?php echo site_url("Obat/setSave"); ?>',{
+		try {
+			//kirim data ke controller
+			let response = await fetch('<?php echo site_url("Obat/setUpdate"); ?>',{
 			method: "POST",
 			body: form
-		})
-		.then((response)=> response.json())
-		.then((result)=> alert(result.statusnya))
-		.catch((error)=> alert("Data Gagal Dikirim!"))
-		
-		
+		});
+		//proses pembacaan hasil
+		let result = await response.json();
+		//pemberitahuan
+		alert(result.statusnya)
+		}
+
+		catch
+		{
+			alert("Data Gagal Dikirim !")
+		}
+
+
+
+
+		//proses kirim data ke controller
+		//fetch('',{
+		//	method: "POST",
+		//	body: form
+		//})
+		//.then((response)=> response.json())
+		//.then((result)=> alert(result.statusnya))
+		//.catch((error)=> alert("Data Gagal Dikirim!"))
 	}
 
 </script>
+
+
 
 </body>
 </html>
