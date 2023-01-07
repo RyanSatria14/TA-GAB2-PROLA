@@ -98,6 +98,7 @@
             {
             
                 location.href='<?php echo site_url("Obat/TambahObat") ?>'
+                
             })
 
            // btn_refresh.addEventListener('click', set_Refresh)
