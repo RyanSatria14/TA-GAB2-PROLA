@@ -13,12 +13,17 @@ class obat extends Server {
 
 	
 	function service_get(){
+		if ($this->token_login() == 0) {
+            return $this->response(array("result" => 0, "error" => "Kode Signature Tidak Sesuai !"), 200);
+        }
+		else{
+			$this->load->model("Models_obat","mdl",TRUE);
 		
-		$this->load->model("Models_obat","mdl",TRUE);
+			$hasil = $this->mdl->get_data();
 		
-		$hasil = $this->mdl->get_data();
+			$this->response(array("obat" => $hasil),200);
+		}
 		
-		$this->response(array("obat" => $hasil),200);
 	}
 
 	
