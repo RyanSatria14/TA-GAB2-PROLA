@@ -26,38 +26,40 @@ class obat extends Server {
 		
 	}
 
-	
-	function service_put(){
-		
-		$this->load->model("Models_obat", "model", TRUE);
-		
-		$data = array(
-			"kode" => $this->put("kode"),
-			"nama" => $this->put("nama"),
-			"jenis" => $this->put("jenis"),
-			"harga" => $this->put("harga"),
-            "stok" => $this->put("stok"),
-			"token" => base64_encode($this->put("token")),
-		);
 
-		$hasil = $this->model->update_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"],$data["token"]);
-		
-		
-		if($hasil == 0){
-			$this->response(array("status"=>"Data obat Berhasil Diubah"),200);
-		}
-		
+	function service_put(){
+		if ($this->token_login() == 0) {
+            return $this->response(array("result" => 0, "error" => "Kode Signature Tidak Sesuai !"), 200);
+        }
 		else{
-			$this->response(array("status"=>"Data obat Gagal Diubah!"),200);
+			$data = array(
+				"kode" => $this->put("kode"),
+				"nama" => $this->put("nama"),
+				"jenis" => $this->put("jenis"),
+				"harga" => $this->put("harga"),
+				"stok" => $this->put("stok"),
+				"token" => base64_encode($this->put("token")),
+			);
+	
+			$hasil = $this->model->update_data($data["kode"],$data["nama"],$data["jenis"],$data["harga"],$data["stok"],$data["token"]);
+			
+			
+			if($hasil == 0){
+				$this->response(array("status"=>"Data obat Berhasil Diubah"),200);
+			}
+			
+			else{
+				$this->response(array("status"=>"Data obat Gagal Diubah!"),200);
+			}
 		}
 	}
 
 	
 	function service_post(){
-		
-		$this->load->model("Models_obat", "model", TRUE);
-		
-		$data = array(
+		if ($this->token_login() == 0) {
+            return $this->response(array("result" => 0, "error" => "Kode Signature Tidak Sesuai !"), 200);
+        }
+		else{$data = array(
 			"kode" => $this->post("kode"),
 			"nama" => $this->post("nama"),
 			"jenis" => $this->post("jenis"),
@@ -75,26 +77,30 @@ class obat extends Server {
 		else{
 			$this->response(array("status"=>"Data obat Gagal Disimpan!"),200);
 		}
+
+		}
 	}
 	
 	
 	function service_delete(){
+		if ($this->token_login() == 0) {
+            return $this->response(array("result" => 0, "error" => "Kode Signature Tidak Sesuai !"), 200);
+        }
+		else{$token = $this->delete("kode");
 
-		$this->load->model("Models_obat", "model", TRUE);
+			$hasil = $this->model->delete_data($token);
+	
+			if($hasil == 1)
+			{
+	
+				$this->response(array("status"=>"Data obat berhasil dihapus"),200);
+			}
+			else
+			{
+				$this->response(array("status" => "Data obat gagal dihapus !"), 200);
+			}
 
-		$token = $this->delete("kode");
-
-		$hasil = $this->model->delete_data($token);
-
-		if($hasil == 1)
-		{
-
-			$this->response(array("status"=>"Data obat berhasil dihapus"),200);
 		}
-		else
-		{
-			$this->response(array("status" => "Data obat gagal dihapus !"), 200);
-		}
-	}
-    
+	}  
+	
 }
