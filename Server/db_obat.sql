@@ -57,6 +57,24 @@ CREATE TABLE `tb_obat` (
 insert  into `tb_obat`(`id`,`kode`,`nama`,`jenis`,`harga`,`stok`) values 
 (16,'11','fff','Vitamin','10000','222');
 
+/*Table structure for table `tb_user` */
+
+DROP TABLE IF EXISTS `tb_user`;
+
+CREATE TABLE `tb_user` (
+  `id` int(15) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `no_hp` int(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+/*Data for the table `tb_user` */
+
+insert  into `tb_user`(`id`,`username`,`password`,`nama`,`no_hp`) values 
+(1,'imam24','123','Imam Asyrofi',89363829);
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

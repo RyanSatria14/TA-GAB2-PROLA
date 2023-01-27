@@ -42,7 +42,7 @@ EOD;
 
     function config_token()
     {
-        $config['exp'] = 400; //detik
+        $config['exp'] = 300; //detik
         $config['key'] = 'key-jwt';
         return $config;
     }
