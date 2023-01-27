@@ -3,15 +3,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Obat extends CI_Controller {
 
+	// buat variabel global
+	var $key_name = 'KEY-API';
+	var $key_value = 'RESTAPI';
+	var $key_bearer = 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NzI3Njc4NzB9.sR9o91Cm73tjZKvq5caahstYdq8SC9gXaVTxsavVXYA';
+
 	public function index()
 	{
-		$data["tampil"] = json_decode($this->client->simple_get(APIOBAT));
-		
-		//foreach($data["tampil"] -> mahasiswa as $result)
-		//{
-		//	echo $result->npm_mhs."<br>";
-		//}
-		$this->load->view('vw_obat', $data);
+		$this->client->http_header($this->key_bearer);
+
+		$data["tampil"] = json_decode($this->client->simple_get(APIOBAT, [$this->key_name => $this->key_value]));
+
+		if ($data["tampil"]->result == 0) {
+			echo $data["tampil"]->error;
+		} else {
+			$this->load->view('index', $data);
+		}
+
 	}
 
 	function TambahObat()
@@ -21,6 +29,8 @@ class Obat extends CI_Controller {
 
 	function setSave()
 	{
+		$this->client->http_header($this->key_bearer);
+
 		//baca nilai dari fetch
 		$data = array(
 			"kode" => $this->input->post("kodenya"),
@@ -29,39 +39,49 @@ class Obat extends CI_Controller {
 		    "harga" => $this->input->post("harganya"),
 			"stok" => $this->input->post("stoknya"),
 			"token" => $this->input->post("tokennya"),
+			$this->key_name => $this->key_value
 		);
 		
 		$save = json_decode($this->client->simple_post(APIOBAT,$data));
 
-		echo json_encode(array("statusnya" => $save->status));
+		if ($save->result == 0) {
+			echo json_encode(array("statusnya" => $save->error));
+		} else {
+			echo json_encode(array("statusnya" => $save->status));
+		}
+		
 	}
 
 	function setDelete()
 	{
+		$this->client->http_header($this->key_bearer);
+
 		//buat variable
 		$json = file_get_contents("php://input");
 		$hasil = json_decode($json);
 
-		$delete = json_decode($this->client->simple_delete(APIOBAT,array("kode" => $hasil->kodenya)));
-
-
-		//isi nilai err
-		//$err = 0;
-
-		//kirim hasil ke vw obat
-		echo json_encode(array("statusnya" => $delete->status));
+		$delete = json_decode($this->client->simple_delete(APIOBAT,array("kode" => $hasil->kodenya, $this->key_name => $this->key_value)));
+		
+		if ($delete->result == 0) {
+			echo json_encode(array("statusnya" => $delete->error));
+		} else {
+			echo json_encode(array("statusnya" => $delete->status));
+		}
+		
 	}
 
 
 //fungsi untuk update data
 function updateObat()
 {
-	
-		//$segmen = $this->uri->total_segments();
-		//ambil nilai npm
+	$this->client->http_header($this->key_bearer);
+		//ambil nilai kode
 		$token = $this->uri->segment(3);
-		$tampil = json_decode($this->client->simple_get(APIOBAT, array("kode" => $token)));
+		$tampil = json_decode($this->client->simple_get(APIOBAT, array("kode" => $token, $this->key_name => $this->key_value)));
 
+		if ($tampil->result == 0) {
+			echo $tampil->error;
+		} else {
 		foreach($tampil -> obat as $result)
 		{
 			//echo $result->nama_mhs."<br>";
@@ -74,9 +94,8 @@ function updateObat()
 				"token" => $token,
 		);
 	}
-
 	$this->load->view('up_obat', $data);
-	
+	}	
 }
 
 
@@ -84,6 +103,7 @@ function updateObat()
 //buat fungsi untuk simpan data mahasiswa
 function setUpdate()
 {
+	$this->client->http_header($this->key_bearer);
 	//baca nilai dari fetch
 	$data = array(
 		"kode" => $this->input->post("kodenya"),
@@ -92,11 +112,17 @@ function setUpdate()
 		"harga" => $this->input->post("harganya"),
 		"stok" => $this->input->post("stoknya"),
 		"token" => $this->input->post("tokennya"),
+		$this->key_name => $this->key_value
 	);
 	
 	$update = json_decode($this->client->simple_put(APIOBAT,$data));
-
-	echo json_encode(array("statusnya" => $update->status));
+	// kirim hasil ke "up_obat"
+	if ($update->result == 0) {
+		echo json_encode(array("statusnya" => $update->error));
+	} else {
+		echo json_encode(array("statusnya" => $update->status));
+	}
+	
 }
 	
 }
