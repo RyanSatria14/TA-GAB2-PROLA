@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class Models_obat extends CI_Model {
+class Models_supplier extends CI_Model {
 
     function get_data(){
         $this->db->select("id AS id_supplier,
